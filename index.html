@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District - Movies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        .logo-subtitle {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 1px;
+            margin-top: -2px;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+
+        .location-icon {
+            color: #e23744;
+            font-size: 16px;
+        }
+
+        .location-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .city {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+
+        .country {
+            font-size: 12px;
+            color: #666;
+            margin-top: -2px;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 10px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #1a1a1a;
+        }
+
+        .nav-link.active {
+            color: #4285f4;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #4285f4;
+            border-radius: 2px;
+        }
+
+        /* Header Right */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .search-input {
+            width: 400px;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #4285f4;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            background: #e0e0e0;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(240, 240, 240, 0.8) 25%,
+                rgba(220, 220, 220, 0.7) 50%,
+                rgba(200, 200, 200, 0.6) 75%,
+                rgba(180, 180, 180, 0.5) 100%);
+        }
+
+        .hero-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .movie-info {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .movie-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .rating {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .separator {
+            color: #666;
+        }
+
+        .genres {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .view-details-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .view-details-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .movie-poster {
+            flex-shrink: 0;
+        }
+
+        .poster-image {
+            width: 300px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .poster-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 15px 20px;
+            }
+            
+            .header-left {
+                gap: 20px;
+            }
+            
+            .nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                gap: 30px;
+            }
+            
+            .search-input {
+                width: 250px;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .movie-title {
+                font-size: 36px;
+            }
+            
+            .poster-image {
+                width: 250px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-input {
+                width: 200px;
+            }
+            
+            .movie-title {
+                font-size: 28px;
+            }
+            
+            .poster-image {
+                width: 200px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-text">district</span>
+                    <span class="logo-subtitle">BY ZOMATO</span>
+                </div>
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-text">
+                        <span class="city">Vijayawada</span>
+                        <span class="country">India</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-link">For you</a>
+                <a href="#" class="nav-link">Dining</a>
+                <a href="#" class="nav-link">Events</a>
+                <a href="#" class="nav-link active">Movies</a>
+            </nav>
+            
+            <div class="header-right">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search for events, movies and restaurants" class="search-input">
+                </div>
+                <div class="profile-icon">
+                    <span>👤</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="movie-info">
+                    <button class="back-btn">
+                        ←
+                    </button>
+                    <h1 class="movie-title">War 2</h1>
+                    <div class="movie-meta">
+                        <span class="rating">UA16+</span>
+                        <span class="separator">|</span>
+                        <span class="genres">Action, Spy +1 more</span>
+                    </div>
+                    <button class="view-details-btn">View details</button>
+                </div>
+                
+                <div class="movie-poster">
+                    <img src="E:\Pictures\war2.jpg"  alt="War 2 Movie Poster" class="poster-image">
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
